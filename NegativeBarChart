@@ -1,0 +1,107 @@
+const NegativeBarChart = props => {
+  // Chart data
+  const {
+    ReactApexCharts,
+    ApexChartWrapper,
+    useTheme,
+    Box,
+    Card,
+    CardContent,
+    CardHeader,
+    Grid,
+    Chart
+  } = Materio;
+  options = {
+    series: [
+      {
+        name: props.title1,
+        data: props.value1
+      },
+      {
+        name: props.title2,
+        data: props.value2
+      }
+    ],
+    chart: {
+      type: "bar",
+      height: 150,
+      stacked: true
+    },
+    dataLabels: {
+      enabled: true,
+      formatter: function(val) {
+        return Math.abs(Math.round(val));
+      },
+      style: {
+        fontSize: "10px",
+        fontWeight: 400
+      }
+    },
+    colors: ["#008FFB", "#FF4560"],
+    plotOptions: {
+      bar: {
+        horizontal: true,
+        barHeight: "80%"
+      }
+    },
+
+    stroke: {
+      width: 1,
+      colors: ["#fff"]
+    },
+
+    grid: {
+      xaxis: {
+        lines: {
+          show: false
+        }
+      }
+    },
+    yaxis: {
+      labels: {
+        show: false
+      }
+    },
+    xaxis: {
+      labels: {
+        show: false
+      }
+    },
+    tooltip: {
+      y: {
+        formatter: function(val) {
+          return Math.abs(Math.round(val));
+        }
+      }
+    }
+  };
+
+  return (
+    <div className="chart">
+      <ReactApexCharts
+        options={options}
+        series={options.series}
+        type="bar"
+        height="150px"
+      />
+    </div>
+  );
+}; 
+
+
+
+
+<Grid container spacing={6}>
+              <Grid item xs={12} md={5} style={{ margin: "auto" }}>
+                <Card>
+                  <CardContent>
+                    <NegativeBarChart
+                      value2={[count[schema[0].name]]}
+                      title2={schema[0].name}
+                      value1={[-count[schema[1].name]]}
+                      title1={schema[1].name}
+                    />
+                  </CardContent>
+                </Card>
+              </Grid>
+</Grid>
