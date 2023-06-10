@@ -1,0 +1,95 @@
+const ParetoBar = props => {
+  let chartAttributes = {
+    showLegend: 1,
+    legendPosition: "bottom",
+    decimals: "1",
+    showValues: "1",
+    yAxisName: "%",
+    palettecolors: FUSION_CHARTS_PALETTES,
+    baseFontSize: "10",
+    height: "500",
+    canvasTopPadding: "50",
+    yAxisMaxValue: "100"
+  };
+
+  const {
+    t,
+    sortKey,
+    categoryKey,
+    seriesMap,
+    data,
+    additionalAttribute
+  } = props;
+  const categories = [];
+  const chartData = [];
+  const schema = Object.values(seriesMap);
+
+  const trendlines = [
+    {
+      line: [
+        {
+          startvalue: "100",
+          endvalue: "",
+          color: "#0000cc",
+          displayvalue: "Target",
+          valueonright: "1",
+          dashed: "1",
+          thickness: "2"
+        },
+        {
+          startvalue: "75",
+          endvalue: "",
+          color: "#A6A6A6",
+          displayvalue: "75%",
+          valueonright: "1",
+          dashed: "1",
+          thickness: "2"
+        },
+        {
+          startvalue: "50",
+          endvalue: "",
+          color: "#A6A6A6",
+          displayvalue: "50%",
+          valueonright: "1",
+          dashed: "1",
+          thickness: "2"
+        }
+      ]
+    }
+  ];
+
+  let dataArray = JSON.parse(JSON.stringify(data));
+
+  for (let i = 0; i < dataArray.length; i++) {
+    categories.push(dataArray[i][categoryKey]);
+    let row = [];
+    let seriesKeys = Object.keys(seriesMap);
+    for (let j = 0; j < seriesKeys.length; j++) {
+      let seriesKey = seriesKeys[j];
+      row.push({
+        value: dataArray[i][seriesKey],
+        color: dataArray[i][seriesKey] == 100 ? "#006600" : "#FF0000"
+      });
+    }
+    chartData.push(row);
+  }
+
+  if (additionalAttribute !== null) {
+    Object.assign(chartAttributes, additionalAttribute);
+  }
+
+  return (
+    <Charts.MultiSeriesChart
+      configuration={{
+        height: 330,
+        type: "scrollColumn2d",
+        showValues: "1"
+      }}
+      chartAttributes={chartAttributes}
+      schema={schema}
+      categories={categories}
+      data={chartData}
+      trendLines={trendlines}
+    />
+  );
+};
