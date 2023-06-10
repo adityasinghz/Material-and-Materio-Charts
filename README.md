@@ -1,2 +1,2 @@
-# ApexCharts
+# Material and Materio Charts
 Chart Components
